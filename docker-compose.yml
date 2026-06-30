@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  # Simula os serviços AWS usados pelo laboratório em ambiente local.
+  localstack:
+    container_name: localstack_devops
+    image: localstack/localstack:3.8.0
+    ports:
+      - "127.0.0.1:4566:4566"            # Porta padrão para todos os serviços da AWS simulados
+      - "127.0.0.1:4510-4559:4510-4559"  # Portas internas para serviços específicos
+    environment:
+      - SERVICES=s3                      # Vamos ativar estritamente o S3 por enquanto para ir devagar
+      - DEBUG=1
+      - ACTIVATE_PRO=0
+    volumes:
+      - "./localstack:/var/lib/localstack"

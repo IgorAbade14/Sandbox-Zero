@@ -1,0 +1,61 @@
+name: Sandbox-Zero CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.5
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init (backend validation)
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Validate shell scripts
+        run: |
+          bash -n ligar-lab.sh
+          bash -n desligar-lab.sh
+
+      - name: Validate docker compose file
+        run: |
+          docker compose -f docker-compose.yml config >/tmp/docker-compose.out
+          cat /tmp/docker-compose.out
+
+  deploy-preview:
+    name: Deploy preview
+    needs: validate
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show deployment message
+        run: |
+          echo "Pipeline manual iniciado."
+          echo "Este projeto é um laboratório local, então a execução completa de infraestrutura é feita localmente via scripts."
+          echo "O workflow de CI valida a estrutura e os arquivos principais."

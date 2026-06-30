@@ -1,0 +1,46 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Credentials & Secrets
+CREDENTIALS.txt
+.env
+.env.local
+secrets/
+*.pem
+*.key
+
+# Kubernetes
+kubeconfig
+kubeconfig.*
+.kube/config
+
+# LocalStack
+localstack/
+.localstack/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+.tmp/
+tmp/

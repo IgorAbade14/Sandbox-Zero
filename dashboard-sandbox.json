@@ -1,0 +1,50 @@
+
+   {
+     "annotations": { "list": [] },
+     "description": "Dashboard inicial do laboratório com um painel de séries temporais do Prometheus.",
+     "editable": true,
+     "fiscalYearStartMonth": 0,
+     "graphTooltip": 0,
+     "id": null,
+     "links": [],
+     "liveNow": false,
+     "panels": [
+       {
+         "collapsed": false,
+         "gridPos": { "h": 9, "w": 12, "x": 0, "y": 0 },
+         "id": 1,
+         "title": "Séries Temporais Ativas",
+         "type": "timeseries",
+         "targets": [
+           {
+             "datasource": { "type": "prometheus", "uid": "prometheus" },
+             "editorMode": "code",
+             "expr": "prometheus_tsdb_head_series",
+             "format": "time_series",
+             "range": true,
+             "refId": "A"
+           }
+         ],
+         "fieldConfig": {
+           "defaults": {
+             "custom": {
+               "drawStyle": "line",
+               "lineInterpolation": "linear"
+             }
+           },
+           "overrides": []
+         }
+       }
+     ],
+     "refresh": "5s",
+     "schemaVersion": 38,
+     "style": "dark",
+     "tags": [],
+     "time": { "from": "now-1h", "to": "now" },
+     "timepicker": {},
+     "timezone": "",
+     "title": "Dashboard Sandbox",
+     "uid": "sandbox-dash",
+     "version": 1,
+     "weekStart": ""
+   }
