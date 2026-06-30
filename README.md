@@ -1,4 +1,4 @@
-# Sandbox-Zero 🌌
+# Sandbox-Zero 🌌 [![Sandbox-Zero CI/CD](https://github.com/IgorAbade14/Sandbox-Zero/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/IgorAbade14/Sandbox-Zero/actions/workflows/ci-cd.yml)
 
 > **Laboratório isolado DevOps** — Simule AWS completo localmente com Kubernetes, Infrastructure as Code e observabilidade.
 
