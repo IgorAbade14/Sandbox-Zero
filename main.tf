@@ -90,71 +90,71 @@ resource "kubernetes_persistent_volume_claim" "postgres_pvc" {
 }
 
 resource "kubernetes_deployment" "postgres" {
-    metadata {
-      name      = "sandbox-postgres"
-      namespace = "default"
-      labels = {
+  metadata {
+    name      = "sandbox-postgres"
+    namespace = "default"
+    labels = {
+      app = "Sandbox-Postgres"
+    }
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
         app = "Sandbox-Postgres"
       }
     }
 
-    spec {
-      replicas = 1
-
-      selector {
-        match_labels = {
+    template {
+      metadata {
+        labels = {
           app = "Sandbox-Postgres"
         }
       }
 
-      template {
-        metadata {
-          labels = {
-            app = "Sandbox-Postgres"
+      spec {
+        container {
+          name  = "postgres"
+          image = "postgres:15-alpine"
+
+          port {
+            container_port = 5432
+          }
+
+          env {
+            name  = "POSTGRES_DB"
+            value = "sandboxdb"
+          }
+
+          env {
+            name  = "POSTGRES_USER"
+            value = "db_user"
+          }
+
+          env {
+            name  = "POSTGRES_PASSWORD"
+            value = "SenhaSegura123"
+          }
+
+          volume_mount {
+            name       = "postgres-storage"
+            mount_path = "/var/lib/postgresql/data"
           }
         }
 
-        spec {
-          container {
-            name  = "postgres"
-            image = "postgres:15-alpine"
+        volume {
+          name = "postgres-storage"
 
-            port {
-              container_port = 5432
-            }
-
-            env {
-              name  = "POSTGRES_DB"
-              value = "sandboxdb"
-            }
-
-            env {
-              name  = "POSTGRES_USER"
-              value = "db_user"
-            }
-
-            env {
-              name  = "POSTGRES_PASSWORD"
-              value = "SenhaSegura123"
-            }
-
-            volume_mount {
-              name       = "postgres-storage"
-              mount_path = "/var/lib/postgresql/data"
-            }
-          }
-
-          volume {
-            name = "postgres-storage"
-
-            persistent_volume_claim {
-              claim_name = kubernetes_persistent_volume_claim.postgres_pvc.metadata[0].name
-            }
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.postgres_pvc.metadata[0].name
           }
         }
       }
     }
   }
+}
 
 resource "kubernetes_service" "postgres_service" {
   metadata {
